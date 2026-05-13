@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История Любви: Косой и Зуппи</title>
+    <style>
+        :root {
+            --pink: #ff85a1;
+            --light-pink: #fbb1bd;
+            --dark-pink: #ff477e;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #fff0f3 0%, #fbb1bd 100%);
+            color: #4a4a4a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 30px;
+            overflow-x: hidden;
+        }
+
+        .heart-bg {
+            position: fixed;
+            top: -10%;
+            color: var(--pink);
+            font-size: 20px;
+            user-select: none;
+            z-index: -1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        h1 {
+            color: var(--dark-pink);
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 71, 126, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid var(--light-pink);
+        }
+
+        .iq-counter { font-weight: bold; color: var(--dark-pink); font-size: 1.2rem; }
+
+        .quiz-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+
+        .btn-quiz { padding: 10px 20px; border-radius: 15px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-yes { background: #00ff88; color: #000; }
+        .btn-no { background: #ff4d6d; color: #fff; }
+
+        .bonus-wrapper { display: none; margin-top: 15px; animation: fadeIn 0.5s; }
+        .secret-photo { width: 100%; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        .btn-hide-bonus {
+            margin-top: 10px;
+            background: #eee;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .menu { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 40px; justify-content: center; }
+
+        button.nav-btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            background: white;
+            color: var(--dark-pink);
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 133, 161, 0.3);
+            transition: 0.4s;
+        }
+
+        button.nav-btn:hover { transform: scale(1.1); background: var(--dark-pink); color: white; }
+
+        .btn-back {
+            grid-column: 1 / -1;
+            margin-bottom: 20px;
+            background: #4a4a4a !important;
+            color: white !important;
+            padding: 10px 20px !important;
+            font-size: 14px !important;
+        }
+
+        .gallery {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .card { background: white; padding: 10px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; }
+        .card:hover { transform: rotate(2deg); }
+
+        .gallery img { width: 100%; height: 350px; object-fit: cover; border-radius: 15px; }
+
+        .active { display: grid !important; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <h1>Forever Together</h1>
+
+    <div class="quiz-container">
+        <div class="iq-counter"><span id="iq-label">Твой IQ</span>: <span id="iq-value">100</span></div>
+        <p>Косой и Зуппи — лучшая пара в мире?</p>
+        <div class="quiz-buttons">
+            <button class="btn-quiz btn-yes" onclick="checkAnswer(true)">ПРАВИЛЬНО</button>
+            <button class="btn-quiz btn-no" onclick="checkAnswer(false)">НЕПРАВИЛЬНО</button>
+        </div>
+
+        <div id="bonus-area" class="bonus-wrapper">
+            <img src="love.jpg" class="secret-photo" alt="Секрет">
+            <br>
+            <button class="btn-hide-bonus" onclick="hideBonus()">← Скрыть бонус</button>
+        </div>
+    </div>
+
+    <div id="main-menu" class="menu">
+        <button class="nav-btn" onclick="showGallery('kosoy')">Косой</button>
+        <button class="nav-btn" onclick="showGallery('zuppi')">Зуппи</button>
+        <button class="nav-btn" onclick="showGallery('love')">Наша Любовь ❤️</button>
+    </div>
+
+    <!-- ГАЛЕРЕИ -->
+    <div id="kosoy" class="gallery">
+        <button class="nav-btn btn-back" onclick="goBack()">← Назад к выбору</button>
+        <div class="card"><img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=500"></div>
+        <div class="card"><img src="kosoy1.jpg"></div>
+        <div class="card"><img src="kosoy2.jpg"></div>
+        <div class="card"><img src="kosoy3.jpg"></div>
+        <div class="card"><img src="kosoy4.jpg"></div>
+    </div>
+
+    <div id="zuppi" class="gallery">
+        <button class="nav-btn btn-back" onclick="goBack()">← Назад к выбору</button>
+        <div class="card"><img src="zuppi1.jpg"></div>
+        <div class="card"><img src="zuppi2.jpg"></div>
+        <div class="card"><img src="zuppi3.jpg"></div>
+        <div class="card"><img src="zuppi4.jpg"></div>
+    </div>
+
+    <div id="love" class="gallery">
+        <button class="nav-btn btn-back" onclick="goBack()">← Назад к выбору</button>
+        <div class="card"><img src="https://images.unsplash.com/photo-1494972308805-463bc619d34e?q=80&w=500"></div>
+        <div class="card"><img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=500"></div>
+        <div class="card"><img src="love.jpg"></div>
+    </div>
+
+    <script>
+        let iq = 100;
+
+        function checkAnswer(isCorrect) {
+            const bonusArea = document.getElementById('bonus-area');
+            const iqDisplay = document.getElementById('iq-value');
+            const iqLabel = document.getElementById('iq-label');
+
+            if (isCorrect) {
+                bonusArea.style.display = "block";
+            } else {
+                iq -= 10;
+                iqDisplay.innerText = iq;
+                bonusArea.style.display = "none";
+
+                if (iq <= -300) {
+                    iqLabel.innerText = "Святик";
+                }
+            }
+        }
+
+        function hideBonus() {
+            document.getElementById('bonus-area').style.display = "none";
+        }
+
+        function showGallery(id) {
+            document.getElementById('main-menu').style.display = 'none';
+            document.querySelectorAll('.gallery').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function goBack() {
+            document.getElementById('main-menu').style.display = 'flex';
+            document.querySelectorAll('.gallery').forEach(el => el.classList.remove('active'));
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
